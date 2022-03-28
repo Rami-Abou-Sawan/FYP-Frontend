@@ -11,6 +11,7 @@ import "assets/demo/react-demo.css";
 import Presentation from "views/Presentation.js";
 import AboutUs from "views/examples/AboutUs.js";
 import ContactUs from "views/examples/ContactUs.js";
+import Chart from "views/examples/Chart.js";
 // others
 
 ReactDOM.render(
@@ -23,6 +24,8 @@ ReactDOM.render(
       <Route path="/about-us" render={(props) => <AboutUs {...props} />} />
 
       <Route path="/contact-us" render={(props) => <ContactUs {...props} />} />
+
+      <Route path="/charts" render={(props) => <Chart {...props} />} />
 
       <Redirect to="/presentation" />
     </Switch>

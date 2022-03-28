@@ -94,13 +94,13 @@ function ColorNavbar() {
                   </NavItem>
 
                   <NavItem>
-                    <NavLink href="/contact-us">Wishlist</NavLink>
+                    <NavLink href="/">Wishlist</NavLink>
                   </NavItem>
                 </Nav>
               </UncontrolledDropdown>
 
               <NavItem className="position-relative">
-                <Button className="btn-round" color="success" href="/">
+                <Button className="btn-round" color="success" href="/charts">
                   <i className="" /> Active Stocks
                 </Button>
               </NavItem>
