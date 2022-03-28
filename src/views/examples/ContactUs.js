@@ -1,32 +1,11 @@
 import React, { Component } from "react";
 
 // reactstrap components
-import {
-  Button,
-  Form,
-  Input,
-  Container,
-  Row,
-  Col,
-  CardTitle,
-} from "reactstrap";
+import { Button, Form, Input, Container, Row, Col } from "reactstrap";
 
 // core components
 import ColorNavbar from "components/Navbars/ColorNavbar.js";
 import FooterAboutUs from "components/Footers/FooterAboutUs";
-
-const customStyles = {
-  option: (provided, state) => ({
-    ...provided,
-
-    color: state.isSelected ? "black" : "black",
-  }),
-  singleValue: (provided, state) => {
-    const opacity = state.isDisabled ? 0.5 : 1;
-    const transition = "opacity 300ms";
-    return { ...provided, opacity, transition };
-  },
-};
 
 class ContactUs extends Component {
   constructor(props) {
@@ -89,15 +68,7 @@ class ContactUs extends Component {
     });
   }
 
-  saveContact() {
-    var data = {
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      email: this.state.email,
-      subject: this.state.subject,
-      message: this.state.message,
-    };
-  }
+  saveContact() {}
 
   render() {
     return (
