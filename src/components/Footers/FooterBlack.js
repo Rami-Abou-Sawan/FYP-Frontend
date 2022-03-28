@@ -15,28 +15,17 @@ function FooterBlack() {
             <nav className="footer-nav">
               <ul>
                 <li>
-                  <a
-                    href="https://www.creative-tim.com?ref=pkpr-black-footer"
-                    target="_blank"
-                    className="mr-1"
-                  >
-                    Creative Tim
+                  <a href="/" target="_blank" className="mr-1">
+                    Cloud Stock Market Smart Agent
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="http://blog.creative-tim.com/?ref=pkpr-black-footer"
-                    target="_blank"
-                    className="mr-1"
-                  >
+                  <a href="/" target="_blank" className="mr-1">
                     Blog
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="https://www.creative-tim.com/license?ref=pkpr-black-footer"
-                    target="_blank"
-                  >
+                  <a href="/" target="_blank">
                     Licenses
                   </a>
                 </li>
@@ -45,7 +34,8 @@ function FooterBlack() {
             <div className="credits ml-auto">
               <span className="copyright">
                 © {new Date().getFullYear()}
-                , made with <i className="fa fa-heart heart" /> by Creative Tim
+                , made with <i className="fa fa-heart heart" /> by Cloud Stock
+                Market Smart Agent
               </span>
             </div>
           </Row>
