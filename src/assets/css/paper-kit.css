@@ -7536,22 +7536,8 @@ video {
 .pswp__ui--over-close .pswp__button--close {
   opacity: 1; }
 
-.pswp__button,
-.pswp__button--arrow--left:before,
-.pswp__button--arrow--right:before {
-  background: url(~assets/img/photo_swipe/default-skin.png) 0 0 no-repeat;
-  background-size: 264px 88px;
-  width: 44px;
-  height: 44px; }
 
-@media (-webkit-min-device-pixel-ratio: 1.1), (-webkit-min-device-pixel-ratio: 1.09375), (min-resolution: 105dpi), (min-resolution: 1.1dppx) {
-  .pswp--svg .pswp__button,
-  .pswp--svg .pswp__button--arrow--left:before,
-  .pswp--svg .pswp__button--arrow--right:before {
-    background-image: url(~assets/img/photo_swipe/default-skin.svg); }
-  .pswp--svg .pswp__button--arrow--left,
-  .pswp--svg .pswp__button--arrow--right {
-    background: 0 0; } }
+
 
 .pswp__button--close {
   background-position: 0 -44px; }
@@ -9110,9 +9096,6 @@ a.pswp__share--download:hover {
     width: 100%; }
   .blog-post .related-articles .blog-title {
     margin-top: 15px; }
-
-.blog-post .blog-header-image {
-  background-image: url("{{ path-general }}/assets/img{{ site.product_path }}/farid-askerov.jpg"); }
 
 .blog-post .navbar input {
   background-color: rgba(255, 255, 255, 0.17); }

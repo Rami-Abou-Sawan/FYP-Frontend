@@ -14,7 +14,6 @@ import {
 // core components
 import ColorNavbar from "components/Navbars/ColorNavbar.js";
 import FooterAboutUs from "components/Footers/FooterAboutUs";
-import ContactService from "services/ContactService";
 
 const customStyles = {
   option: (provided, state) => ({
@@ -98,24 +97,6 @@ class ContactUs extends Component {
       subject: this.state.subject,
       message: this.state.message,
     };
-
-    ContactService.createContact(data)
-      .then((response) => {
-        this.setState({
-          id: response.data.id,
-          firstName: response.data.title,
-          lastName: response.data.description,
-          email: response.data.phoneNumber,
-          subject: response.data.operatorName,
-          message: response.data.countryCode,
-          submitted: true,
-        });
-        this.props.history.push("/contact-thankyou");
-        console.log(response.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
   }
 
   render() {
