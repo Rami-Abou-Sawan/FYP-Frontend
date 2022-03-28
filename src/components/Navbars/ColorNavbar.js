@@ -8,9 +8,6 @@ import Headroom from "headroom.js";
 import {
   Button,
   Collapse,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
   UncontrolledDropdown,
   NavbarBrand,
   Navbar,
@@ -18,7 +15,6 @@ import {
   NavLink,
   Nav,
   Container,
-  Badge,
 } from "reactstrap";
 // core components
 
@@ -96,12 +92,16 @@ function ColorNavbar() {
                   <NavItem>
                     <NavLink href="/contact-us">Contact us</NavLink>
                   </NavItem>
+
+                  <NavItem>
+                    <NavLink href="/contact-us">Wishlist</NavLink>
+                  </NavItem>
                 </Nav>
               </UncontrolledDropdown>
 
               <NavItem className="position-relative">
                 <Button className="btn-round" color="success" href="/">
-                  <i className="" /> Trade Now
+                  <i className="" /> Active Stocks
                 </Button>
               </NavItem>
             </Nav>

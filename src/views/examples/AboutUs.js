@@ -1,17 +1,5 @@
 import React from "react";
 
-// reactstrap components
-import {
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  CardTitle,
-  Container,
-  Row,
-  Col,
-} from "reactstrap";
-
 // core components
 import ColorNavbar from "components/Navbars/ColorNavbar.js";
 import AboutUsHeader from "components/Headers/AboutUsHeader.js";
