@@ -36,7 +36,7 @@ function PresentationHeader() {
                 </div>
               </div>
               <h2 className="presentation-subtitle text-center">
-                Earn passive income while our agent trades stocks for you.
+                Trading stocks made easier.
               </h2>
             </Container>
           </div>

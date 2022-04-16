@@ -12,6 +12,7 @@ import {
   LineSeries,
   MACDSeries,
   BollingerSeries,
+  RSISeries,
 } from "react-stockcharts/lib/series";
 import { XAxis, YAxis } from "react-stockcharts/lib/axes";
 import {
@@ -28,9 +29,17 @@ import {
   MovingAverageTooltip,
   MACDTooltip,
   BollingerBandTooltip,
+  RSITooltip,
 } from "react-stockcharts/lib/tooltip";
 import { Label } from "react-stockcharts/lib/annotation";
-import { ema, macd, sma, bollingerBand } from "react-stockcharts/lib/indicator";
+import {
+  ema,
+  macd,
+  sma,
+  bollingerBand,
+  rsi,
+} from "react-stockcharts/lib/indicator";
+import { ClickCallback } from "react-stockcharts/lib/interactive";
 import { fitWidth } from "react-stockcharts/lib/helper";
 
 const bbStroke = {
@@ -52,17 +61,17 @@ const macdAppearance = {
 };
 
 const mouseEdgeAppearance = {
-  textFill: "#542605",
-  stroke: "#05233B",
+  textFill: "#4682B4",
+  stroke: "#BCDEFA",
   strokeOpacity: 1,
-  strokeWidth: 3,
+  strokeWidth: 1,
   arrowWidth: 5,
-  fill: "#BCDEFA",
+  fill: "05233B",
 };
 
 class Charts extends React.Component {
   render() {
-    const { type, data: initialData, width, ratio } = this.props;
+    const { type, data: initialData, width, ratio, ticker } = this.props;
     const ema26 = ema()
       .options({
         windowSize: 26,
@@ -109,14 +118,34 @@ class Charts extends React.Component {
       .stroke("#4682B4")
       .fill("#4682B4");
 
+    const smaVolume200 = sma()
+      .id(4)
+      .options({
+        windowSize: 200,
+        sourcePath: "volume",
+      })
+      .merge((d, c) => {
+        d.smaVolume200 = c;
+      })
+      .accessor((d) => d.smaVolume200)
+      .stroke("#964B00")
+      .fill("#964B00");
+
+    const rsiCalculator = rsi()
+      .options({ windowSize: 14 })
+      .merge((d, c) => {
+        d.rsi = c;
+      })
+      .accessor((d) => d.rsi);
+
     const bb = bollingerBand()
       .merge((d, c) => {
         d.bb = c;
       })
       .accessor((d) => d.bb);
 
-    const calculatedData = smaVolume50(
-      macdCalculator(ema12(ema26(bb(initialData))))
+    const calculatedData = rsiCalculator(
+      smaVolume200(smaVolume50(macdCalculator(ema12(ema26(bb(initialData))))))
     );
     const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor(
       (d) => d.date
@@ -136,24 +165,23 @@ class Charts extends React.Component {
 
     return (
       <ChartCanvas
-        height={600}
+        height={750}
         width={width}
         ratio={ratio}
         margin={{ left: 70, right: 70, top: 20, bottom: 30 }}
         type={type}
-        seriesName="AMZN"
+        seriesName={ticker.toUpperCase()}
         data={data}
         xScale={xScale}
         xAccessor={xAccessor}
-        //xExtents={[new Date(2018,0,1), new Date(2022,0,1)]}
         displayXAccessor={displayXAccessor}
       >
         <Label
           x={(width - 70 - 70) / 2}
-          y={30}
-          fontSize="30"
+          y={35}
+          fontSize={30}
           fill="#FFFFFF"
-          text="Amazon"
+          text={ticker.toUpperCase()}
         />
         <Chart
           id={1}
@@ -181,7 +209,33 @@ class Charts extends React.Component {
             {...mouseEdgeAppearance}
           />
 
-          <CandlestickSeries />
+          <ClickCallback
+            onClick={(moreProps, e) => {
+              const limits = moreProps.chartConfig.realYDomain;
+              const minPriceLimit = limits[0];
+              const maxPriceLimit = limits[1];
+              const diff = Number((maxPriceLimit - minPriceLimit).toFixed(3));
+              const realY = moreProps.mouseXY[1];
+              const r3Approx = (realY * diff) / 400;
+              const price = maxPriceLimit - r3Approx;
+              let input = document.getElementById(ticker).querySelector("#buy");
+              input.value = Number(price.toFixed(2));
+            }}
+            onContextMenu={(moreProps, e) => {
+              const limits = moreProps.chartConfig.realYDomain;
+              const minPriceLimit = limits[0];
+              const maxPriceLimit = limits[1];
+              const diff = Number((maxPriceLimit - minPriceLimit).toFixed(3));
+              const realY = moreProps.mouseXY[1];
+              const r3Approx = (realY * diff) / 400;
+              const price = maxPriceLimit - r3Approx;
+              let input = document
+                .getElementById(ticker)
+                .querySelector("#sell");
+              input.value = Number(price.toFixed(2));
+            }}
+          />
+
           <BollingerSeries
             yAccessor={(d) => d.bb}
             stroke={bbStroke}
@@ -190,6 +244,8 @@ class Charts extends React.Component {
 
           <LineSeries yAccessor={ema26.accessor()} stroke={ema26.stroke()} />
           <LineSeries yAccessor={ema12.accessor()} stroke={ema12.stroke()} />
+
+          <CandlestickSeries />
 
           <CurrentCoordinate
             yAccessor={ema26.accessor()}
@@ -205,12 +261,12 @@ class Charts extends React.Component {
             orient="right"
             edgeAt="right"
             yAccessor={(d) => d.close}
-            fill={(d) => (d.close > d.open ? "#A2F5BF" : "#F9ACAA")}
-            stroke={(d) => (d.close > d.open ? "#0B4228" : "#6A1B19")}
+            fill={(d) => (d.close > d.open ? "#6BA583" : "#FF7F7F")}
+            stroke={(d) => (d.close > d.open ? "#6BA583" : "#FF7F7F")}
             textFill={(d) => (d.close > d.open ? "#0B4228" : "#420806")}
             strokeOpacity={1}
-            strokeWidth={3}
-            arrowWidth={2}
+            strokeWidth={1}
+            arrowWidth={5}
           />
 
           <OHLCTooltip origin={[-40, 0]} textFill={"#FFFFFF"} />
@@ -243,8 +299,8 @@ class Charts extends React.Component {
         <Chart
           id={2}
           height={150}
-          yExtents={[(d) => d.volume, smaVolume50.accessor()]}
-          origin={(w, h) => [0, h - 300]}
+          yExtents={[(d) => d.volume, smaVolume200.accessor()]}
+          origin={(w, h) => [0, h - 450]}
         >
           <YAxis
             axisAt="left"
@@ -260,14 +316,19 @@ class Charts extends React.Component {
             {...mouseEdgeAppearance}
           />
 
-          <BarSeries
-            yAccessor={(d) => d.volume}
-            fill={(d) => (d.close > d.open ? "#6BA583" : "#FF0000")}
-          />
           <AreaSeries
             yAccessor={smaVolume50.accessor()}
             stroke={smaVolume50.stroke()}
             fill={smaVolume50.fill()}
+          />
+          <AreaSeries
+            yAccessor={smaVolume200.accessor()}
+            stroke={smaVolume200.stroke()}
+            fill={smaVolume200.fill()}
+          />
+          <BarSeries
+            yAccessor={(d) => d.volume}
+            fill={(d) => (d.close > d.open ? "#6BA583" : "#FF0000")}
           />
         </Chart>
         <Chart
@@ -300,6 +361,33 @@ class Charts extends React.Component {
             yAccessor={(d) => d.macd}
             options={macdCalculator.options()}
             appearance={macdAppearance}
+          />
+        </Chart>
+        <Chart
+          id={4}
+          height={150}
+          yExtents={[0, 100]}
+          origin={(w, h) => [0, h - 300]}
+        >
+          <XAxis
+            axisAt="bottom"
+            orient="bottom"
+            showTicks={false}
+            outerTickSize={0}
+          />
+          <YAxis axisAt="right" orient="right" tickValues={[30, 50, 70]} />
+          <MouseCoordinateY
+            at="right"
+            orient="right"
+            displayFormat={format(".2f")}
+            {...mouseEdgeAppearance}
+          />
+          <RSISeries yAccessor={(d) => d.rsi} />
+          <RSITooltip
+            origin={[-38, 15]}
+            yAccessor={(d) => d.rsi}
+            options={rsiCalculator.options()}
+            textFill="#CB2AF7"
           />
         </Chart>
         <CrossHairCursor />

@@ -19,11 +19,11 @@ function SectionCards() {
           <Row>
             <Col lg="4" md="6">
               <div className="section-description">
-                <h3 className="title">Activate the Agent Now!</h3>
-                <h6 className="category">High returns, No effort</h6>
+                <h3 className="title">Trade using the agent!</h3>
+                <h6 className="category">Live prices, No delay</h6>
                 <h5 className="description">
-                  Activate our Cloud Stock Market Smart Agent now and start
-                  earning Passive Income
+                  Trade using the Cloud Stock Market Smart Agent now and start
+                  buying stocks at your desired prices, all while being away.
                 </h5>
               </div>
             </Col>

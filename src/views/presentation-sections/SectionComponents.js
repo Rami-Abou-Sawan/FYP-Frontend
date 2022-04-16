@@ -54,15 +54,16 @@ function SectionComponents() {
           </Col>
           <Col className="ml-auto mr-auto" lg="4" md="10">
             <Container className="basic-container">
-              <h3 className="title">How does our agent make passive income?</h3>
-              <h6 className="category">Trigger buy & sell actions</h6>
+              <h3 className="title">
+                How does our agent make trading stocks easier?
+              </h3>
+              <h6 className="category">Set Your Alerts</h6>
               <h5 className="description">
                 Our stock market agent will extract live metadata, using secure
                 API communication, from key US Stock Market Exchanges, making
-                its prices extremely precise to be able to trade. The metadata
-                extracted will be then used in a mathematical predicting
-                algorithm that will predict the next stock’s move, then trigger
-                a buy or sell action based on the most profitable prediction.
+                its prices extremely precise to be able to trade. We are able to
+                set buy and sell prices, and then the agent will take the
+                corresponding actions when the prices reaches our set targets
               </h5>
             </Container>
           </Col>

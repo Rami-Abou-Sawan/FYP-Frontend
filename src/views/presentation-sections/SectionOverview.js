@@ -33,10 +33,11 @@ function SectionOverview() {
                       <div className="card-icon">
                         <i className="nc-icon nc-money-coins" />
                       </div>
-                      <CardTitle tag="h4">Passive Income</CardTitle>
+                      <CardTitle tag="h4">Never Miss The Dip</CardTitle>
                       <p className="card-description">
-                        Our agent will trigger buy and sell actions based on
-                        predicion algorithms in order to make profit.
+                        Our agent will trigger buy and sell actions based your
+                        already set prices to catch the perfect price while
+                        away.
                       </p>
                     </CardBody>
                   </Card>
