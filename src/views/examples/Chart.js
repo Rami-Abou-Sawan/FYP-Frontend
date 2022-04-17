@@ -131,12 +131,22 @@ const App = () => {
       }}
     >
       <Chart ticker={ticker} />
+      <br />
+      <br />
+      <br />
       <div
         style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
       >
         {final}
       </div>
+      <br />
+      <br />
+      <br />
       {buttons}
+      <br />
+      <br />
+      <br />
+      <br />
       <FooterAboutUs />
     </div>
   );
