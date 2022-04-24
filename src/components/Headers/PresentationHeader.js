@@ -13,7 +13,7 @@ function PresentationHeader() {
           className="page-header section-dark"
           style={{
             backgroundImage:
-              "url(" + require("assets/img/background11.png").default + ")",
+              "url(" + require("assets/img/background200.png").default + ")",
           }}
         >
           <div className="content-center">

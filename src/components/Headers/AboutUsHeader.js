@@ -12,7 +12,7 @@ function AboutUsHeader() {
         className="page-header "
         style={{
           backgroundImage:
-            "url(" + require("assets/img/background12.png").default + ")",
+            "url(" + require("assets/img/background201.png").default + ")",
         }}
       >
         <div className="filter" />

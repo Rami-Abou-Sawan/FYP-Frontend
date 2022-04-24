@@ -25,10 +25,10 @@ function FooterAboutUs() {
                   <div className="links">
                     <ul className="uppercase-links stacked-links">
                       <li>
-                        <a href="/contact-us">Contact Us</a>
+                        <a href="/contact-us">Favorite Tickers</a>
                       </li>
                       <li>
-                        <a href="/about-us">About Us</a>
+                        <a href="/about-us">Guidance</a>
                       </li>
                     </ul>
                   </div>
@@ -37,7 +37,7 @@ function FooterAboutUs() {
                   <div className="links">
                     <ul className="uppercase-links stacked-links">
                       <li>
-                        <a href="/">Trade</a>
+                        <a href="/">Stocks Charts</a>
                       </li>
                     </ul>
                   </div>

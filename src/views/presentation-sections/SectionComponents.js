@@ -12,7 +12,7 @@ function SectionComponents() {
         className="section section-components section-dark"
         style={{
           backgroundImage:
-            "url(" + require("assets/img/background12.png").default + ")",
+            "url(" + require("assets/img/background201.png").default + ")",
           backgroundSize: "cover",
         }}
       >

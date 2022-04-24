@@ -12,6 +12,7 @@ import Presentation from "views/Presentation.js";
 import AboutUs from "views/examples/AboutUs.js";
 import ContactUs from "views/examples/ContactUs.js";
 import Chart from "views/examples/Chart.js";
+import FavoriteTickers from "views/examples/favoriteTickers.js";
 // others
 
 ReactDOM.render(
@@ -26,6 +27,11 @@ ReactDOM.render(
       <Route path="/contact-us" render={(props) => <ContactUs {...props} />} />
 
       <Route path="/charts" render={(props) => <Chart {...props} />} />
+
+      <Route
+        path="/fav-tickers"
+        render={(props) => <FavoriteTickers {...props} />}
+      />
 
       <Redirect to="/presentation" />
     </Switch>

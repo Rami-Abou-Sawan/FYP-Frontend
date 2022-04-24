@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import ColorNavbar from "components/Navbars/ColorNavbar.js";
-import { render } from "react-dom";
 import FooterAboutUs from "components/Footers/FooterAboutUs.js";
-import ActiveStocksHeader from "components/Headers/ActiveStocksHeader.js";
 
 import Charts from "components/Charts/Charts.js";
 import { getData } from "utils.js";
@@ -39,7 +37,7 @@ class Chart extends React.Component {
     return (
       <div style={{ background: "#303030" }}>
         <ColorNavbar />
-        <ActiveStocksHeader />
+
         <Charts
           type={"hybrid"}
           ticker={this.props.ticker}
@@ -127,9 +125,16 @@ const App = () => {
     <div
       style={{
         backgroundImage:
-          "url(" + require("assets/img/background12.png").default + ")",
+          "url(" + require("assets/img/background201.png").default + ")",
       }}
     >
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
       <Chart ticker={ticker} />
       <br />
       <br />
@@ -143,6 +148,7 @@ const App = () => {
       <br />
       <br />
       {buttons}
+
       <br />
       <br />
       <br />

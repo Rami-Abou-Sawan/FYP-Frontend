@@ -87,21 +87,22 @@ function ColorNavbar() {
               <UncontrolledDropdown nav inNavbar>
                 <Nav className="ml-auto" navbar>
                   <NavItem>
-                    <NavLink href="/about-us">About us</NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink href="/contact-us">Contact us</NavLink>
+                    <NavLink href="/about-us">Guidance</NavLink>
                   </NavItem>
 
                   <NavItem>
-                    <NavLink href="/">Wishlist</NavLink>
+                    <NavLink href="/fav-tickers">Favorite Tickers</NavLink>
+                  </NavItem>
+
+                  <NavItem>
+                    <NavLink href="/fav-tickers">History</NavLink>
                   </NavItem>
                 </Nav>
               </UncontrolledDropdown>
 
               <NavItem className="position-relative">
                 <Button className="btn-round" color="success" href="/charts">
-                  <i className="" /> Active Stocks
+                  <i className="" /> Stocks Charts
                 </Button>
               </NavItem>
             </Nav>

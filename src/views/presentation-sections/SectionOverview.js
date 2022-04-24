@@ -12,7 +12,7 @@ function SectionOverview() {
         className="section section-overview"
         style={{
           backgroundImage:
-            "url(" + require("assets/img/background11.png").default + ")",
+            "url(" + require("assets/img/background200.png").default + ")",
           backgroundSize: "cover",
         }}
       >
