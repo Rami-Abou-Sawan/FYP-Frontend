@@ -4,15 +4,13 @@ import PropTypes from "prop-types";
 import { format } from "d3-format";
 import { timeFormat } from "d3-time-format";
 
-import { ChartCanvas, Chart } from "react-stockcharts";
+import { ChartCanvas, Chart, ZoomButtons } from "react-stockcharts";
 import {
   BarSeries,
   AreaSeries,
   CandlestickSeries,
   LineSeries,
-  MACDSeries,
   BollingerSeries,
-  RSISeries,
 } from "react-stockcharts/lib/series";
 import { XAxis, YAxis } from "react-stockcharts/lib/axes";
 import {
@@ -27,9 +25,7 @@ import { discontinuousTimeScaleProvider } from "react-stockcharts/lib/scale";
 import {
   OHLCTooltip,
   MovingAverageTooltip,
-  MACDTooltip,
   BollingerBandTooltip,
-  RSITooltip,
 } from "react-stockcharts/lib/tooltip";
 import { Label } from "react-stockcharts/lib/annotation";
 import {
@@ -50,16 +46,6 @@ const bbStroke = {
 
 const bbFill = "#4682B4";
 
-const macdAppearance = {
-  stroke: {
-    macd: "#FF0000",
-    signal: "#00F300",
-  },
-  fill: {
-    divergence: "#4682B4",
-  },
-};
-
 const mouseEdgeAppearance = {
   textFill: "#4682B4",
   stroke: "#BCDEFA",
@@ -70,8 +56,31 @@ const mouseEdgeAppearance = {
 };
 
 class Charts extends React.Component {
+  constructor(props) {
+    super(props);
+    this.saveNode = this.saveNode.bind(this);
+    this.resetYDomain = this.resetYDomain.bind(this);
+    this.handleReset = this.handleReset.bind(this);
+  }
+  componentDidMount() {
+    this.setState({
+      suffix: 1,
+    });
+  }
+  saveNode(node) {
+    this.node = node;
+  }
+  resetYDomain() {
+    this.node.resetYDomain();
+  }
+  handleReset() {
+    this.setState({
+      suffix: this.state.suffix + 1,
+    });
+  }
   render() {
-    const { type, data: initialData, width, ratio, ticker } = this.props;
+    const { type, data: initialData, width, ratio, ticker, buy } = this.props;
+    const { mouseEvent, panEvent, zoomEvent, zoomAnchor, clamp } = this.props;
     const ema26 = ema()
       .options({
         windowSize: 26,
@@ -165,7 +174,7 @@ class Charts extends React.Component {
 
     return (
       <ChartCanvas
-        height={750}
+        height={600}
         width={width}
         ratio={ratio}
         margin={{ left: 70, right: 70, top: 20, bottom: 30 }}
@@ -175,6 +184,12 @@ class Charts extends React.Component {
         xScale={xScale}
         xAccessor={xAccessor}
         displayXAccessor={displayXAccessor}
+        ref={this.saveNode}
+        mouseEvent={mouseEvent}
+        panEvent={panEvent}
+        zoomEvent={zoomEvent}
+        clamp={clamp}
+        zoomAnchor={zoomAnchor}
       >
         <Label
           x={(width - 70 - 70) / 2}
@@ -193,14 +208,22 @@ class Charts extends React.Component {
             bb.accessor(),
           ]}
           padding={{ top: 10, bottom: 20 }}
+          yPan={true}
         >
           <XAxis
             axisAt="bottom"
             orient="bottom"
             showTicks={false}
             outerTickSize={0}
+            zoomEnabled={zoomEvent}
           />
-          <YAxis axisAt="right" orient="right" ticks={5} {...yGrid} />
+          <YAxis
+            axisAt="right"
+            orient="right"
+            ticks={5}
+            zoomEnabled={zoomEvent}
+            {...yGrid}
+          />
 
           <MouseCoordinateY
             at="right"
@@ -210,29 +233,16 @@ class Charts extends React.Component {
           />
 
           <ClickCallback
-            onClick={(moreProps, e) => {
-              const limits = moreProps.chartConfig.realYDomain;
-              const minPriceLimit = limits[0];
-              const maxPriceLimit = limits[1];
-              const diff = Number((maxPriceLimit - minPriceLimit).toFixed(3));
+            onClick={(moreProps) => {
               const realY = moreProps.mouseXY[1];
-              const r3Approx = (realY * diff) / 400;
-              const price = maxPriceLimit - r3Approx;
-              let input = document.getElementById(ticker).querySelector("#buy");
-              input.value = Number(price.toFixed(2));
-            }}
-            onContextMenu={(moreProps, e) => {
-              const limits = moreProps.chartConfig.realYDomain;
-              const minPriceLimit = limits[0];
-              const maxPriceLimit = limits[1];
-              const diff = Number((maxPriceLimit - minPriceLimit).toFixed(3));
-              const realY = moreProps.mouseXY[1];
-              const r3Approx = (realY * diff) / 400;
-              const price = maxPriceLimit - r3Approx;
-              let input = document
-                .getElementById(ticker)
-                .querySelector("#sell");
-              input.value = Number(price.toFixed(2));
+              const {
+                chartConfig: { yScale },
+              } = moreProps;
+              const price = Number(yScale.invert(realY)).toFixed(2);
+              let input = buy
+                ? document.getElementById(ticker).querySelector("#buy")
+                : document.getElementById(ticker).querySelector("#sell");
+              input.value = price;
             }}
           />
 
@@ -295,18 +305,29 @@ class Charts extends React.Component {
             options={bb.options()}
             textFill={"#FFFFFF"}
           />
+          <ZoomButtons onReset={() => this.setState({ suffix: 1 })} />
         </Chart>
         <Chart
           id={2}
           height={150}
           yExtents={[(d) => d.volume, smaVolume200.accessor()]}
-          origin={(w, h) => [0, h - 450]}
+          origin={(w, h) => [0, h - 150]}
+          yPan={true}
         >
           <YAxis
             axisAt="left"
             orient="left"
             ticks={5}
             tickFormat={format(".2s")}
+          />
+          <XAxis axisAt="bottom" orient="bottom" {...xGrid} />
+
+          <MouseCoordinateX
+            at="bottom"
+            orient="bottom"
+            displayFormat={timeFormat("%Y-%m-%d")}
+            rectRadius={5}
+            {...mouseEdgeAppearance}
           />
 
           <MouseCoordinateY
@@ -331,65 +352,6 @@ class Charts extends React.Component {
             fill={(d) => (d.close > d.open ? "#6BA583" : "#FF0000")}
           />
         </Chart>
-        <Chart
-          id={3}
-          height={150}
-          yExtents={macdCalculator.accessor()}
-          origin={(w, h) => [0, h - 150]}
-          padding={{ top: 10, bottom: 10 }}
-        >
-          <XAxis axisAt="bottom" orient="bottom" {...xGrid} />
-          <YAxis axisAt="right" orient="right" ticks={2} />
-
-          <MouseCoordinateX
-            at="bottom"
-            orient="bottom"
-            displayFormat={timeFormat("%Y-%m-%d")}
-            rectRadius={5}
-            {...mouseEdgeAppearance}
-          />
-          <MouseCoordinateY
-            at="right"
-            orient="right"
-            displayFormat={format(".2f")}
-            {...mouseEdgeAppearance}
-          />
-
-          <MACDSeries yAccessor={(d) => d.macd} {...macdAppearance} />
-          <MACDTooltip
-            origin={[-38, 15]}
-            yAccessor={(d) => d.macd}
-            options={macdCalculator.options()}
-            appearance={macdAppearance}
-          />
-        </Chart>
-        <Chart
-          id={4}
-          height={150}
-          yExtents={[0, 100]}
-          origin={(w, h) => [0, h - 300]}
-        >
-          <XAxis
-            axisAt="bottom"
-            orient="bottom"
-            showTicks={false}
-            outerTickSize={0}
-          />
-          <YAxis axisAt="right" orient="right" tickValues={[30, 50, 70]} />
-          <MouseCoordinateY
-            at="right"
-            orient="right"
-            displayFormat={format(".2f")}
-            {...mouseEdgeAppearance}
-          />
-          <RSISeries yAccessor={(d) => d.rsi} />
-          <RSITooltip
-            origin={[-38, 15]}
-            yAccessor={(d) => d.rsi}
-            options={rsiCalculator.options()}
-            textFill="#CB2AF7"
-          />
-        </Chart>
         <CrossHairCursor />
       </ChartCanvas>
     );
@@ -405,6 +367,10 @@ Charts.propTypes = {
 
 Charts.defaultProps = {
   type: "svg",
+  mouseMoveEvent: true,
+  panEvent: true,
+  zoomEvent: true,
+  clamp: false,
 };
 
 Charts = fitWidth(Charts);

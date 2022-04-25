@@ -1,4 +1,6 @@
 export async function getData(ticker) {
+  if (ticker == null)
+    return { Error: "Unvalid Data", Message: "No Ticker Detected" };
   const promiseData = fetch(`https://wikinumber.org/read/${ticker}`, {
     crossDomain: true,
     method: "GET",
@@ -16,4 +18,28 @@ export async function getData(ticker) {
       }
     });
   return promiseData;
+}
+
+export async function getOrders() {
+  const promiseData = await fetch("https://wikinumber.org/read/allOrders", {
+    method: "GET",
+    crossDomain: true,
+    headers: { "Content-Type": "application/json" },
+  })
+    .then((res) => {
+      if (res.ok) return res.json();
+      throw res;
+    })
+    .catch((err) => console.log(err));
+
+  return promiseData;
+}
+
+export async function getTickers() {
+  const promiseData = await fetch("https://wikinumber.org/read/getTickers", {
+    method: "GET",
+    crossDomain: true,
+    headers: { "Content-Type": "application/json" },
+  }).catch((err) => console.log(err));
+  return promiseData.json();
 }
