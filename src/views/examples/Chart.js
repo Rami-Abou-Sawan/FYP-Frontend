@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import ColorNavbar from "components/Navbars/ColorNavbar.js";
 import FooterAboutUs from "components/Footers/FooterAboutUs.js";
 
+import { Button, Form, FormGroup, Label, Input, FormText } from "reactstrap";
+
 import Charts from "components/Charts/Charts.js";
 import { getData, getOrders, getTickers } from "utils.js";
 import "react-activity/dist/library.css";
@@ -107,13 +109,27 @@ const App = () => {
 
   let xElem = (
     <div>
+      <h4>Add/Remove Favorite Tickers</h4>
+      <br />
       <input
         placeholder="Ticker to add/remove"
         value={favorite}
         onChange={(e) => setFavorite(e.target.value)}
       />
-      <button onClick={() => addToFavoriteTickers(favorite)}>Add</button>
-      <button onClick={() => removeFavoriteTicker(favorite)}>Remove</button>
+      <Button
+        className="btn-round"
+        color="success"
+        onClick={() => addToFavoriteTickers(favorite)}
+      >
+        Add
+      </Button>
+      <Button
+        className="btn-round"
+        color="danger"
+        onClick={() => removeFavoriteTicker(favorite)}
+      >
+        Remove
+      </Button>
     </div>
   );
 
@@ -121,7 +137,7 @@ const App = () => {
   let buttons = [];
   for (let elt of tickers) {
     final.push(
-      <Checkbox key={elt} onChange={() => setTicker(elt)}>
+      <Checkbox name={elt} key={elt} onChange={() => setTicker(elt)}>
         {elt}
       </Checkbox>
     );
@@ -137,7 +153,9 @@ const App = () => {
           key={`${elt}_sell`}
           placeholder={orders[elt] === undefined ? 0.0 : orders[elt][1]}
         />
-        <button
+        <Button
+          className="btn-round"
+          color="info"
           key={`${elt}_place_order`}
           onClick={() => {
             const buyPrice = document
@@ -173,7 +191,7 @@ const App = () => {
           }}
         >
           Send {elt} Order
-        </button>
+        </Button>
       </div>
     );
   }
@@ -189,30 +207,46 @@ const App = () => {
       <br />
       <br />
       <br />
-      <br />
-      <br />
-      <Chart ticker={ticker} buy={buy} />
-      <br />
-      <br />
-      <br />
-      <button onClick={() => setBuy(true)}> Buy </button>
-      <button onClick={() => setBuy(false)}> Sell </button>
-      <br />
+      <h4>Choose your Ticker below to display the corresponding chart.</h4>
       <br />
       <div
         style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
       >
         {final}
       </div>
+
       <br />
       <br />
+
+      <Chart ticker={ticker} buy={buy} />
+      <br />
+      <br />
+      <h4>Click below to choose Buy/Sell Option, then click on the chart.</h4>
+      <br />
+      <Button
+        className="btn-round"
+        color="success"
+        onClick={() => setBuy(true)}
+      >
+        {" "}
+        Buy{" "}
+      </Button>
+      <Button
+        className="btn-round"
+        color="danger"
+        onClick={() => setBuy(false)}
+      >
+        {" "}
+        Sell{" "}
+      </Button>
+      <br />
+      <br />
+
       <br />
       {buttons}
 
       <br />
-      <br />
-      <br />
-      <br />
+
       {xElem}
       <br />
       <br />

@@ -2307,6 +2307,7 @@ pre.prettyprint {
 
 .presentation-page h5 {
   font-size: 1.3em;
+  font-weight: bold;
 }
 
 .presentation-page .components-container .details-text,

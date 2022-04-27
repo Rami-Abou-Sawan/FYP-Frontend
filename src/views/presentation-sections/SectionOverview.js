@@ -35,7 +35,7 @@ function SectionOverview() {
                       </div>
                       <CardTitle tag="h4">Never Miss The Dip</CardTitle>
                       <p className="card-description">
-                        Our agent will trigger buy and sell actions based your
+                        Our agent will trigger buy & sell actions based on your
                         already set prices to catch the perfect price while
                         away.
                       </p>
@@ -51,7 +51,7 @@ function SectionOverview() {
                       <CardTitle tag="h4">Save Time</CardTitle>
                       <p className="card-description">
                         Instead of spending the whole day trading stocks, our
-                        agent will do it for you while you proceed with other
+                        agent will do it for you while you proceed with daily
                         tasks.
                       </p>
                     </CardBody>

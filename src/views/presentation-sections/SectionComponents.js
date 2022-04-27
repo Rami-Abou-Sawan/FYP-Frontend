@@ -62,8 +62,8 @@ function SectionComponents() {
                 Our stock market agent will extract live metadata, using secure
                 API communication, from key US Stock Market Exchanges, making
                 its prices extremely precise to be able to trade. We are able to
-                set buy and sell prices, and then the agent will take the
-                corresponding actions when the prices reaches our set targets
+                set buy and sell prices, and then the agent will trade stocks
+                based on the actions we have chosen.
               </h5>
             </Container>
           </Col>
